@@ -31,13 +31,12 @@ function getTrack(trackId) {
         },
       })
     }).then(res => {
-      console.log(res)
       const dom = new JSDOM(res.data)
       const document = dom.window.document
 
       return {
-        informationTable: document.querySelector('.mat_30 .table_02'),
-        progressTable: document.querySelector('.mat_30:nth-child(2) + div .table_02')
+        informationTable: document.querySelector('table'),
+        progressTable: document.querySelector('table table')
       }
     }).then(({ informationTable, progressTable }) => {
       if ( informationTable.querySelector('tr:last-child td').getAttribute('colspan') === '4' ) {
@@ -55,8 +54,9 @@ function getTrack(trackId) {
           let result = []
           table.querySelectorAll('tr').forEach(element => {
             const tds = element.querySelectorAll('td')
-            if ( tds.length === 0 ) { return }
-            if ( tds[1].innerHTML == '--:--' ) { return }
+            if (element.hasAttribute('bgcolor')) { return } // 줄 ...
+            if ( tds.length <= 1 ) { return } // 줄 ...
+            if ( tds[1] && tds[1].innerHTML == '--:--' ) { return }
             result.push({
               time: `${tds[0].innerHTML.replace(/\./g, '-')}T${tds[1].innerHTML}:00+09:00`,
               location: {
