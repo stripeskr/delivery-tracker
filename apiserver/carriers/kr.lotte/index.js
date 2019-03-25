@@ -16,23 +16,22 @@ const parseStatus = (s) => {
 
 function getTrack(trackId) {
   return new Promise((resolve, reject) => {
-    axios.post('https://www.lotteglogis.com/home/personal/inquiry/track', qs.stringify({
-      InvNo: trackId,
-      action: 'processInvoiceSubmit',
-    })).then(res => {
+    axios.get(`https://www.lotteglogis.com/open/tracking?invno=${trackId}`
+    ).then(res => {
       const cookie = res.headers['set-cookie'].map(Cookie.parse).map(c => c.cookieString()).join('; ')
       return new Promise((resolve, reject) => {
         setTimeout(() => { resolve({ cookie }) }, 2400)
       })
     }).then(({ cookie }) => {
-      return axios.post('https://www.lotteglogis.com/home/personal/inquiry/track', qs.stringify({
-        action: 'processInvoiceLinkSubmit',
+      return axios.post('https://www.lotteglogis.com/open/tracking', qs.stringify({
+        action: 'processSubmit',
       }), {
         headers: {
           Cookie: cookie,
         },
       })
     }).then(res => {
+      console.log(res)
       const dom = new JSDOM(res.data)
       const document = dom.window.document
 
