@@ -73,7 +73,17 @@ function getTrack(trackId) {
         })(progressTable)
       }
 
-      shippingInformation.state = shippingInformation.progresses[shippingInformation.progresses.length - 1].status
+      // 정보 순서가 꼬인 경우가 있어서 무조건 마지막이 배송완료가 아님
+      // 1. 배송완료가 어딘가에 있으면 배송완료
+      shippingInformation.progresses.forEach((e, i) => {
+        if (e.status.id === 'delivered') {
+          shippingInformation.state = e.status
+        }
+      })
+      // 2. 배송완료가 아니면 마지막 것이 배송 완료
+      if (shippingInformation.state.id !== 'delivered') {
+        shippingInformation.state = shippingInformation.progresses[shippingInformation.progresses.length - 1].status
+      }
 
       if(informationTable.length != 0) {
         shippingInformation.from = {
