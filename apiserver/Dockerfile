@@ -3,11 +3,13 @@ FROM node:carbon
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+#COPY package*.json ./
 RUN npm install
 
-COPY . .
+#COPY . .
 
 EXPOSE 8080
 
-CMD [ "npm", "start" ]
+#CMD [ "npm", "start" ]
+CMD npm install \
+    && npm start
