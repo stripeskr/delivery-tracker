@@ -1,5 +1,11 @@
 # API Server
 ## Track API
+
+```
+pm2 list
+pm2 restart server
+```
+
 배송 조회 API 입니다. 모든 필드는 택배사에 따라 생략 될 수 있습니다.
 ```javascript
 {
