@@ -36,3 +36,9 @@ pm2 restart server
   ]
 }
 ```
+
+## Development
+```
+docker-compose run delivery-tracker-dev
+
+```
