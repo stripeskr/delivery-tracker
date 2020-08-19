@@ -116,7 +116,7 @@ function getTrack(trackId) {
 
           // set last status
           shippingInformation.state =
-            dProgress.status ||
+            (dProgress || {}).status ||
             shippingInformation.progresses[
               shippingInformation.progresses.length - 1
             ].status;
